@@ -45,12 +45,25 @@ Your final ranking will not be determined solely by P&L or Sharpe ratio. We care
 
 Replace or extend this section:
 
-- Candidate name:
-- Strategy name and 2–3 sentence summary:
+- Candidate name: Logan Lam
+  
+- Strategy name and 2–3 sentence summary: Inverse Volatility Defensive Allocation. A long-only, fully-invested strategy that allocates more capital to calmer assets and less to volatile ones, based on realized_vol_20d, rather than attempting to predict return direction.
+  
 - Reproduction command and environment:
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+python3 starter/backtester.py --strategy strategy.py --split development
+python3 starter/backtester.py --strategy strategy.py --split validation
+
 - Development and validation metrics, with dates:
-- Important assumptions and known limitations:
-- AI tools used:
-- How they were used:
+  - Development (Jan 1, 2021 – Jun 28, 2024, 910 sessions): total return 14.3%, annualized return 3.8%, Sharpe 0.38, Sortino 0.61, max drawdown -10.8%, average daily turnover 2.3%, cumulative transaction costs 1.0% of NAV.
+  - Validation (Jul 1 – Dec 31, 2024, 132 sessions): total return -1.9%, annualized return -3.6%, Sharpe -0.27, Sortino -0.39, max drawdown -4.3%, average daily turnover 3.7%, cumulative transaction costs 0.24% of NAV.
+    
+- Important assumptions and known limitations: Volatility-based weighting manages risk magnitude, not direction. It cannot distinguish a stable, slowly-declining asset from a stable, flat/rising one. Validation period showed a loss, with only 132 sessions. This is not conclusive evidence against the approach, but is disclosed honestly. After viewing the initial validation result, a stronger (non-dampened) volatility tilt was also tested and found to perform similarly. The dampened version was retained for its lower turnover and cost. Additionally, No formal equal-weight baseline comparison was run. 
+  
+- AI tools used: Claude
+  
+- How they were used: Used throughout as a research sounding board and coding tutor, explaining quant/finance concepts and terminology, reviewing my hypothesis-testing approach and helping interpret results, helping debug environment/file-path issues. All hypotheses tested, interpretation of results, and the final strategy design decisions (long-only, fully invested, inverse-volatility tilt, choice between tilt strengths) were made by me. Claude wrote/debugged code implementing logic I specified rather than originating the strategy itself.
 
 Only documentation, the example, and market observations are provided. Any explanatory research examples in `starter/` demonstrate the API; they are not trading recommendations.
